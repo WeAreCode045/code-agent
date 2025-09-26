@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  ai:
+    image: ghcr.io/vllm/vllm:latest
+    container_name: qwen3-coder-vllm
+    command: >
+      --model Qwen3-Coder-7B
+      --host 0.0.0.0
+      --port 9000
+      --quantization fp16
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports:
+      - '9000:9000'
+    restart: unless-stopped
+    volumes:
+      - ./models:/models
+      - ./logs:/logs
+    shm_size: '16g'
+    mem_limit: '32g'
+    mem_reservation: '16g'
