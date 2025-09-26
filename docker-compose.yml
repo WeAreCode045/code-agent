@@ -24,6 +24,3 @@ services:
     volumes:
       - ./models:/models
       - ./logs:/logs
-    shm_size: '16g'
-    mem_limit: '32g'
-    mem_reservation: '16g'
